@@ -97,11 +97,35 @@ const getOneItem = async (id) => {
   }
 };
 
+//update Item
+
+const updateItem = async (itemToUpdate) => {
+  let allItems = await getAllItems();
+  const indexOfItemToUpdate = allItems.findIndex(
+    (eachItem) => eachItem.id === itemToUpdate.id
+  );
+  console.log(indexOfItemToUpdate);
+  if (indexOfItemToUpdate === -1) {
+    console.log(
+      "The item you wish to update was not fount in the item catalogue"
+    );
+    throw new Error(
+      "The item you wish to update was not fount in the item catalogue"
+    );
+  } else {
+    allItems[indexOfItemToUpdate] = {
+      ...allItems[indexOfItemToUpdate],
+      ...itemToUpdate,
+    };
+    console.log(allItems);
+    return updateCatalogue(JSON.stringify(allItems));
+  }
+};
 
 //getAllItems()
 //generateId();
-//createItem({ id: 10, name: "Sweet Potato", price: 900, size: "m" });
-getOneItem(11);
+updateItem({ id: 14, name: "Guava", price: 900, size: "m" });
+//getOneItem(11);
 
 module.exports = {
   loadHomePage,
