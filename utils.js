@@ -41,7 +41,7 @@ const getAllItems = async () => {
       }
     });
   });
-  console.log(JSON.parse(await allItems));
+  // console.log(JSON.parse(await allItems));
   return JSON.parse(await allItems);
 };
 
@@ -73,23 +73,35 @@ function updateCatalogue(data) {
   });
 }
 
-
 //create Item
 const createItem = async (item) => {
   const itemId = await generateId();
   let existingItems = await getAllItems();
-  const itemToAdd = { ...item, id:itemId };
-  console.log("ffff",itemToAdd);
- existingItems.push(itemToAdd);
+  const itemToAdd = { ...item, id: itemId };
+  console.log("ffff", itemToAdd);
+  existingItems.push(itemToAdd);
   console.log(existingItems);
   return updateCatalogue(JSON.stringify(existingItems));
 };
 
+//Get one Item
+const getOneItem = async (id) => {
+  const allItems = await getAllItems();
+  const singleItem = allItems.find((item) => item.id === id);
+  if (!singleItem) {
+    console.log("no item with that id in the item catalogue");
+    throw new Error("no item with that id in the item catalogue");
+  } else {
+    console.log(singleItem);
+    return singleItem;
+  }
+};
 
 
 //getAllItems()
 //generateId();
 //createItem({ id: 10, name: "Sweet Potato", price: 900, size: "m" });
+getOneItem(11);
 
 module.exports = {
   loadHomePage,
