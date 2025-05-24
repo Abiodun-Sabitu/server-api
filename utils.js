@@ -78,9 +78,9 @@ const createItem = async (item) => {
   const itemId = await generateId();
   let existingItems = await getAllItems();
   const itemToAdd = { ...item, id: itemId };
-  console.log("ffff", itemToAdd);
+ // console.log("ffff", itemToAdd);
   existingItems.push(itemToAdd);
-  console.log(existingItems);
+  //console.log(existingItems);
   return updateCatalogue(JSON.stringify(existingItems));
 };
 
@@ -92,42 +92,66 @@ const getOneItem = async (id) => {
     console.log("no item with that id in the item catalogue");
     throw new Error("no item with that id in the item catalogue");
   } else {
-    console.log(singleItem);
+    //console.log(singleItem);
     return singleItem;
   }
 };
 
 //update Item
-
 const updateItem = async (itemToUpdate) => {
   let allItems = await getAllItems();
   const indexOfItemToUpdate = allItems.findIndex(
     (eachItem) => eachItem.id === itemToUpdate.id
   );
-  console.log(indexOfItemToUpdate);
+  //console.log(indexOfItemToUpdate);
   if (indexOfItemToUpdate === -1) {
     console.log(
-      "The item you wish to update was not fount in the item catalogue"
+      "The item you wish to update was not found in the item catalogue"
     );
     throw new Error(
-      "The item you wish to update was not fount in the item catalogue"
+      "The item you wish to update was not found in the item catalogue"
     );
   } else {
     allItems[indexOfItemToUpdate] = {
       ...allItems[indexOfItemToUpdate],
       ...itemToUpdate,
     };
-    console.log(allItems);
+    //console.log(allItems);
     return updateCatalogue(JSON.stringify(allItems));
   }
 };
 
-//getAllItems()
-//generateId();
-updateItem({ id: 14, name: "Guava", price: 900, size: "m" });
-//getOneItem(11);
+
+// Delete Item
+
+const deleteItem = async (itemToDelete)=>{
+let allItems = await getAllItems();
+  const indexOfItemToDelete = allItems.findIndex(
+    (eachItem) => eachItem.id === itemToDelete.id
+  );
+  //console.log(indexOfItemToDelete);
+  if (indexOfItemToDelete === -1) {
+    console.log(
+      "The item you wish to delete was not found in the item catalogue"
+    );
+    throw new Error(
+      "The item you wish to update was not found in the item catalogue"
+    );
+  } else {
+    allItems.splice(indexOfItemToDelete, 1) 
+    //console.log(allItems);
+    return updateCatalogue(JSON.stringify(allItems));
+  }
+
+}
+
 
 module.exports = {
   loadHomePage,
   loadErrorPage,
+  createItem,
+  getAllItems,
+  getOneItem,
+  updateItem,
+  deleteItem
 };
