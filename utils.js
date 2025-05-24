@@ -3,7 +3,7 @@ const fs = require("fs");
 
 const homePagePath = path.join(__dirname, "/pages/index.html");
 const errorPagePath = path.join(__dirname, "/pages/404.html");
-const itemsFilePath = path.join(__dirname, "/catalogue/items.js");
+const itemsFilePath = path.join(__dirname, "/catalogue/items.json");
 
 //Load Home Page
 const loadHomePage = () => {
@@ -41,7 +41,7 @@ const getAllItems = async () => {
       }
     });
   });
-  //console.log(JSON.parse(await allItems));
+  console.log(JSON.parse(await allItems));
   return JSON.parse(await allItems);
 };
 
@@ -73,6 +73,8 @@ function updateCatalogue(data) {
   });
 }
 
+
+//create Item
 const createItem = async (item) => {
   const itemId = await generateId();
   let existingItems = await getAllItems();
@@ -83,10 +85,11 @@ const createItem = async (item) => {
   return updateCatalogue(JSON.stringify(existingItems));
 };
 
+
+
 //getAllItems()
 //generateId();
-
-createItem({ id: 10, name: "Sweet Potato", price: 900, size: "m" });
+//createItem({ id: 10, name: "Sweet Potato", price: 900, size: "m" });
 
 module.exports = {
   loadHomePage,
