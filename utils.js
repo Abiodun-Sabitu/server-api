@@ -5,7 +5,6 @@ const homePagePath = path.join(__dirname, "/pages/index.html");
 const errorPagePath = path.join(__dirname, "/pages/404.html");
 const itemsFilePath = path.join(__dirname, "/catalogue/items.js");
 
-
 //Load Home Page
 const loadHomePage = () => {
   const content = new Promise((resolve, reject) => {
@@ -15,7 +14,6 @@ const loadHomePage = () => {
   });
   return content;
 };
-
 
 // Load Error Page
 const loadErrorPage = () => {
@@ -32,7 +30,6 @@ const loadErrorPage = () => {
   return errorPage;
 };
 
-
 // Get All Items
 const getAllItems = async () => {
   const allItems = new Promise((resolve, reject) => {
@@ -48,27 +45,48 @@ const getAllItems = async () => {
   return JSON.parse(await allItems);
 };
 
-
 //Auto generate ID
 const generateId = async () => {
   const allItems = await getAllItems();
-  const itemId = allItems.reduce((maxIDSoFar, currentItem)=>{
-    if(currentItem.id > maxIDSoFar){
-        return currentItem.id
-    }else{
-        return maxIDSoFar
+  const itemId = allItems.reduce((maxIDSoFar, currentItem) => {
+    if (currentItem.id > maxIDSoFar) {
+      return currentItem.id;
+    } else {
+      return maxIDSoFar;
     }
-  }, 0)
-console.log(itemId + 1)
-  return itemId + 1
+  }, 0);
+  //console.log(itemId + 1);
+  return itemId + 1;
 };
 
-/* const createItem = (data) => {
-  fs.writeFile(itemsFilePath, data, () => {});
-}; */
+//reusable stand alone write into file func
+function updateCatalogue(data) {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(itemsFilePath, data, (err) => {
+      if (err) {
+        console.log(`operation not successful: catalogue wasn't updated`);
+        return reject(err);
+      }
+      console.log(`operation successful: catalogue has been refreshed!`);
+      resolve(getAllItems());
+    });
+  });
+}
+
+const createItem = async (item) => {
+  const itemId = await generateId();
+  let existingItems = await getAllItems();
+  const itemToAdd = { ...item, id:itemId };
+  console.log("ffff",itemToAdd);
+ existingItems.push(itemToAdd);
+  console.log(existingItems);
+  return updateCatalogue(JSON.stringify(existingItems));
+};
 
 //getAllItems()
-generateId();
+//generateId();
+
+createItem({ id: 10, name: "Sweet Potato", price: 900, size: "m" });
 
 module.exports = {
   loadHomePage,
