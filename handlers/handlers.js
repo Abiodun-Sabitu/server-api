@@ -5,6 +5,7 @@ const {
   getAllItems,
   getOneItem,
   deleteItem,
+  updateItem,
 } = require("./../utils");
 
 const handleLoadHomePage = async (res) => {
@@ -94,6 +95,37 @@ const handleDeleteItem = async (res, id)=>{
 }
 
 
+const handleUpdateItem = async(req, res) =>{
+let receivedData = "";
+  req.on("data", (chunk) => {
+    receivedData += chunk.toString();
+  });
+  req.on("end", async () => {
+    try {
+      const data = JSON.parse(receivedData);
+      if (!data || Object.keys(data).length === 0) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(
+          JSON.stringify({ error: "Bad request: you must identify item to update" })
+        );
+        return;
+      }
+      const updatedCatalogue = await updateItem(data);
+      res.writeHead(201, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          message: "item updated successfully",
+          items: updatedCatalogue,
+        })
+      );
+    } catch (error) {
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+  });
+
+}
+
 
 module.exports = {
   handleLoadHomePage,
@@ -101,5 +133,6 @@ module.exports = {
   handleCreateItem,
   handleGetAllItems,
   handleGetOneItem,
-  handleDeleteItem
+  handleDeleteItem,
+  handleUpdateItem
 };

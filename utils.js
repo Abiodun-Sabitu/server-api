@@ -105,11 +105,11 @@ const updateItem = async (itemToUpdate) => {
   );
   //console.log(indexOfItemToUpdate);
   if (indexOfItemToUpdate === -1) {
-    console.log(
-      "The item you wish to update was not found in the item catalogue"
-    );
+    // console.log(
+    //   "The item you wish to update was not found in the item catalogue"
+    // );
     throw new Error(
-      "The item you wish to update was not found in the item catalogue"
+      "Please ensure the details of item to update contains item id"
     );
   } else {
     allItems[indexOfItemToUpdate] = {
@@ -125,7 +125,7 @@ const updateItem = async (itemToUpdate) => {
 // Delete Item
 
 const deleteItem = async (id)=>{
-  console.log("delete",id)
+  //console.log("delete",id)
 let allItems = await getAllItems();
   const indexOfItemToDelete = allItems.findIndex(
     (eachItem) => eachItem.id === id

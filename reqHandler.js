@@ -4,7 +4,8 @@ const {
   handleCreateItem,
   handleGetAllItems,
   handleGetOneItem,
-  handleDeleteItem
+  handleDeleteItem,
+  handleUpdateItem
 } = require("./handlers/handlers");
 
 const extractId = require("./helper");
@@ -26,6 +27,11 @@ const reqHandler = (req, res) => {
 
   if (url === "/items" && method === "GET") {
     handleGetAllItems(res);
+    return;
+  }
+
+  if (url === "/items" && method === "PATCH") {
+    handleUpdateItem(req, res);
     return;
   }
 

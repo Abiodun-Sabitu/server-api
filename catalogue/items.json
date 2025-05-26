@@ -1,1 +1,7 @@
-[]
+[
+  { "id": 1, "name": "Banana", "price": 150, "size": "S" },
+  { "id": 2, "name": "Avocado", "price": 300, "size": "M" },
+  { "id": 3, "name": "Avocado", "price": 300, "size": "M" },
+  { "id": 4, "name": "Sweet Potato", "price": 900, "size": "M" },
+  { "id": 5, "name": "Cucumbers", "price": 4000, "size": "S" }
+]
