@@ -1,5 +1,5 @@
 const http = require("http");
-const reqHandler = require('./handler/reqHandler')
+const reqHandler = require('./reqHandler')
 const PORT = 8000;
 const HOSTNAME = "http://localhost";
 

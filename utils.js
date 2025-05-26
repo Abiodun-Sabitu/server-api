@@ -77,7 +77,7 @@ function updateCatalogue(data) {
 const createItem = async (item) => {
   const itemId = await generateId();
   let existingItems = await getAllItems();
-  const itemToAdd = { ...item, id: itemId };
+  const itemToAdd = { id: itemId, ...item };
  // console.log("ffff", itemToAdd);
   existingItems.push(itemToAdd);
   //console.log(existingItems);
@@ -124,10 +124,11 @@ const updateItem = async (itemToUpdate) => {
 
 // Delete Item
 
-const deleteItem = async (itemToDelete)=>{
+const deleteItem = async (id)=>{
+  console.log("delete",id)
 let allItems = await getAllItems();
   const indexOfItemToDelete = allItems.findIndex(
-    (eachItem) => eachItem.id === itemToDelete.id
+    (eachItem) => eachItem.id === id
   );
   //console.log(indexOfItemToDelete);
   if (indexOfItemToDelete === -1) {
@@ -135,7 +136,7 @@ let allItems = await getAllItems();
       "The item you wish to delete was not found in the item catalogue"
     );
     throw new Error(
-      "The item you wish to update was not found in the item catalogue"
+      "The item you wish to delete was not found in the item catalogue"
     );
   } else {
     allItems.splice(indexOfItemToDelete, 1) 
